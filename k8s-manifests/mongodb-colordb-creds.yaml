@@ -1,0 +1,11 @@
+# Application credentials - used by the backend app to connect to the colordb database
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-colordb-creds
+  labels:
+    app: mongodb
+type: Opaque
+data:
+  username: Y29sb3JkYl91c2Vy # colordb_user
+  password: Y29sb3JkYl9wYXNzd29yZA== # colordb_password

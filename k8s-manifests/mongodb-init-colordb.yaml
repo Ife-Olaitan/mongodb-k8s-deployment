@@ -1,0 +1,33 @@
+# Initializes colordb database and creates colordb_user when MongoDB first starts
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-init-colordb
+  labels:
+    app: mongodb
+data:
+  mongodb-init.js: |
+    // Read environment variables set by the MongoDB StatefulSet
+    const dbName = process.env.DB_NAME;
+    const dbUser = process.env.DB_USER;
+    const dbPassword = process.env.DB_PASSWORD;
+
+    // Switch to the colordb database (creates it if it doesn't exist)
+    db = db.getSiblingDB(dbName);
+
+    console.log(`Initializing: ${dbName})`);
+    console.log(`Initializing: Creating user ${dbUser})`);
+
+    // Create the colordb_user user with limited permissions
+    db.createUser({
+        user: dbUser,
+        pwd: dbPassword,
+        roles: [
+            {
+                role: 'readWrite',
+                db: dbName
+            }
+        ]
+    });
+
+    console.log(`Initializing: Success!)`);
