@@ -1,0 +1,3 @@
+.idea
+backend.md
+k8s-manifests/traffic-generator.yaml
